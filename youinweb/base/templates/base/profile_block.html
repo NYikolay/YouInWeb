@@ -1,6 +1,6 @@
 {% load static %}
 {% if request.user.is_authenticated %}
-<img src="{% static 'base/images/profile_image.png' %}" alt="#" class="profile_image img-fluid">
+<img src="{% static 'base/images/profile_image3.jpg' %}" alt="#" class="profile_image img-fluid">
 <div class="user_profile_info d-flex flex-row bd-highlight mb-3 align-items-center">
         <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="user_image">
         <h3 class="user_name">{{ user.username }}</h3>
@@ -13,14 +13,20 @@
 <div class="d-flex flex-column bd-highlight align-items-start mb-3 mt-5 my_profile">
         <h3 class="my_profile_text">My Profile</h3>
         <a href="#" class="profile_links"><i class="icon-sticky-note-o"></i>Blog</a>
-        <a href="{% url 'home' %}" class="profile_links"><i class="icon-user-woman"></i>Friends (In developing)</a>
+        <a href="{% url 'home' %}" class="profile_links"><i class="icon-user-woman"></i>Followers (In developing)</a>
         <a href="{% url 'create-room' %}" class="profile_links"><i class="icon-chat"></i>Create Topic</a>
         <a href="{% url 'logout' %}" class="profile_links"><i class="icon-logout"></i>Logout</a>
+        <br>
+        <h3 class="my_profile_topics">Topics</h3>
+        <a href="{% url 'home' %}" class="profile_links"><i class="icon-logout"></i>All (<span>{{ room__count }}</span>)</a>
+        {% for topic in topics %}
+        <a href="{% url 'home' %}?q={{ topic.name }}" class="profile_links"><i class="icon-chat"></i>{{ topic.name }} (<span>{{ topic.room_set.all.count }}</span>)</a>
+        {% endfor %}
 
 </div>
 
 {% else %}
-        <h3 class="not_registered-user">You must register or login to see the profile page</h3>
+<h3 class="not_registered-user">You must register or login to see the profile page</h3>
 {% endif %}
 
 

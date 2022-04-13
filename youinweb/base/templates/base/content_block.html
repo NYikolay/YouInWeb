@@ -33,7 +33,7 @@
         <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="post_image">
         <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
             <a href="" class="post_creator-name">@{{ i.host.username }}</a>
-            <p class="created_timesince">Category: {{ i.topic.name }} - {{ i.created|timesince }} ago</p>
+            <p class="created_timesince">Category: <a href="{% url 'home' %}?q={{ i.topic.name }}" class="post_category">{{ i.topic.name }}</a> - {{ i.created|timesince }} ago</p>
         </div>
     </div>
     <hr>

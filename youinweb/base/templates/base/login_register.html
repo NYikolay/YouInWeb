@@ -1,39 +1,94 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 {% if page == 'login' %}
-
-{% include 'base/profile_block.html' %}
-
-<div>
-    <form action="" method="post">
-        {% csrf_token %}
-
-        <label>Username: </label>
-        <input type="text" name="username" placeholder="Enter Username">
-        <label>Password: </label>
-        <input type="password" name="password" placeholder="Enter Password">
-        <input type="submit" value="login">
-    </form>
-    <p>Haven't signed up yet?</p>
-    <a href="{% url 'register' %}">Sign up</a>
+<div class="col-12 login_page-container">
+    <div class="login_page">
+        <div class="login-page_header">
+            <p class="login_header-title">Login</p>
+        </div>
+        <div class="login_page-body">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form_group d-flex flex-column bd-highlight mb-3">
+                    <label class="username_label">Username </label>
+                    <input class="username_input" type="text" name="username" placeholder="GarryMan123">
+                </div>
+                <div class="form_group d-flex flex-column bd-highlight mb-3">
+                    <label class="password_label">Password </label>
+                    <input class="password_input" type="password" name="password" placeholder="••••••••">
+                </div>
+                <button class="form_profile-button" type="submit" value="login"><i class="icon-login"></i>Login</button>
+            </form>
+        </div>
+        <div class="login_page-footer">
+            <p class="login_footer-text">Haven't signed up yet?</p>
+            <a href="{% url 'register' %}" class="login_footer-link">Sign Up</a>
+        </div>
+    </div>
 </div>
-
 {% else %}
 
-<div>
-    <form action="" method="post">
-        {% csrf_token %}
-
-        {{ form.as_p }}
-        <input type="submit" value="register">
-        <hr>
-        <p>Already have an account?</p>
-        <a href="{% url 'login' %}">Log in</a>
-        <hr>
-    </form>
+<div class="col-12 login_page-container">
+    <div class="login_page">
+        <div class="login-page_header">
+            <p class="login_header-title">Register</p>
+        </div>
+        <div class="login_page-body">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form_group d-flex flex-column bd-highlight mb-3">
+                    <label class="username_label">Username </label>
+                    <input class="username_input" type="text" name="username" placeholder="GarryMan123">
+                </div>
+                <div class="form_group d-flex flex-column bd-highlight mb-3">
+                    <label class="password_label">Password </label>
+                    <input class="password_input" type="password" name="password" placeholder="••••••••">
+                </div>
+                <button class="form_profile-button" type="submit" value="register"><i class="icon-lock"></i>Register</button>
+            </form>
+        </div>
+        <div class="login_page-footer">
+            <p class="login_footer-text">Already have an account?</p>
+            <a href="{% url 'login' %}" class="login_footer-link">Login</a>
+        </div>
+    </div>
 </div>
+
+<!--<form action="" method="post">-->
+<!--    {% csrf_token %}-->
+
+<!--    {{ form.as_p }}-->
+<!--    <input type="submit" value="register">-->
+<!--</form>-->
+
 {% endif %}
 
 {% endblock %}
+
+
+
+
+
+
+
+<!--{% if page == 'login' %}-->
+
+<!--<div>-->
+<!--    <form action="" method="post">-->
+<!--        {% csrf_token %}-->
+
+<!--        <label>Username: </label>-->
+<!--        <input type="text" name="username" placeholder="Enter Username">-->
+<!--        <label>Password: </label>-->
+<!--        <input type="password" name="password" placeholder="Enter Password">-->
+<!--        <input type="submit" value="login">-->
+<!--    </form>-->
+<!--    <p>Haven't signed up yet?</p>-->
+<!--    <a href="{% url 'register' %}">Sign up</a>-->
+<!--</div>-->
+
+<!--{% else %}-->
+
+
+<!--{% endif %}-->
