@@ -1,0 +1,103 @@
+{% load static %}
+
+<div class="some_opp d-flex justify-content-between bg-light">
+    <a href="#" class="community"><i class="icon-user-woman"></i>Community</a>
+    <a href="#" class="show_posts"><i class="icon-star-empty"></i>Show my posts</a>
+    <button type="button" class="search_btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="icon-search"></i>Search</button>
+    <a href="#" class="something">Something</a>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'home' %}" method="get">
+                    <div class="mb-3">
+                        <label class="col-form-label">Search for:</label>
+                        <input type="text" name="q" placeholder="Search" aria-label="Search" class="form-control" id="recipient-name ">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Весь пост -->
+{% for i in room %}
+<div class="post bg-light p-4">
+    <div class="post_header d-flex">
+        <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="post_image">
+        <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
+            <a href="" class="post_creator-name">@{{ i.host.username }}</a>
+            <p class="created_timesince">Category: {{ i.topic.name }} - {{ i.created|timesince }} ago</p>
+        </div>
+    </div>
+    <hr>
+    <div class="post_text">
+        <p class="post_text-message font-weight-normal">
+            {{ i.name }}
+        </p>
+    </div>
+    <div class="post_tags">
+        <a href="">#lorem</a>
+        <a href="">#lorem</a>
+        <a href="">#lorem</a>
+        <a href="">#lorem</a>
+        <a href="">#lorem</a>
+    </div>
+    <div class="post_buttons d-flex flex-row">
+        <button class="post_btn1" type="button"><i class="icon-thumbs-up-alt"></i>2 people</button>
+        <a href="{% url 'room' i.id %}" class="post_btn2" type="button"><i class="icon-chat"></i>Discuss</a>
+    </div>
+
+    <div class="show_comments">
+        <a href="{% url 'room' i.id %}"><i class="icon-chat"></i>See more</a>
+    </div>
+
+    <div class="post_comments">
+        <div class="post_comments-line"></div>
+        <div class="post_comment d-flex">
+            <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
+                <img src="{% static 'base/images/user_image.png' %}" alt="" class="comment_image">
+                <a href="" class="post_creator-name">@{{ i.message.user }}</a>
+                <p class="created_timesince">2 month ago</p>
+            </div>
+            <!-- Фиксированное количество слов МАКСИМУМ 55 -->
+            <p class="comment_text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam assumenda provident fuga veritatis
+                voluptates sapiente hic nemo, rem, blanditiis dolorem numquam iste iusto rerum, asperis!</p>
+        </div>
+    </div>
+
+    <div class="post_comments">
+        <div class="post_comments-line"></div>
+        <div class="post_comment d-flex">
+            <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
+                <img src="{% static 'base/images/user_image.png' %}" alt="" class="comment_image">
+                <a href="" class="post_creator-name">Patric</a>
+                <p class="created_timesince">2 month ago</p>
+            </div>
+            <!-- Фиксированное количество слов МАКСИМУМ 55 -->
+            <p class="comment_text">Lorem ipsum dolor sit amet conss!</p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+
+
+
+
+
+<!--{% for i in room %}-->
+<!--<span>Creator: <a href="{% url 'profile' i.host.id %}">@{{ i.host.username }}</a></span>-->
+<!--<h1><a href="{% url 'room' i.pk %}">{{ i.name }}</a></h1><br>-->
+<!--<span>Topic: {{ i.topic.name }}</span>-->
+<!--<hr>-->
+<!--{% endfor %}-->

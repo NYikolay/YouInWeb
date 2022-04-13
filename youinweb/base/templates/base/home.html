@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Home | {% endblock %}
+
+{% block content %}
+    <div class="col-xl-3 bg-light profile">
+        {% include 'base/profile_block.html' %}
+    </div>
+
+    <div class="col-xl-5">
+        {% include 'base/content_block.html' %}
+    </div>
+
+    <div class="col-xl-3">
+        {% include 'base/activity_block.html' %}
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+<div class="home-container">
+    <div>
+        {% include 'base/topics_component.html' %}
+    </div>
+
+    <div>
+        <h2>Our Rooms:</h2>
+        <h5>{{ room__count }} rooms available</h5>
+        <a href="{% url 'create-room' %}">Create room</a><br><br>
+        {% include 'base/feed_component.html' %}
+    </div>
+
+
+    <div>
+        {% include 'base/activity_component.html' %}
+    </div>
+
+
+</div>

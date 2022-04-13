@@ -1,0 +1,41 @@
+{% load static %}
+
+<div class="last_activity bg-light">
+    <div class="last_activity-header">
+        <p class="last_header-text">RECENT ACTIVITIES</p>
+    </div>
+    {% for message in room_messages %}
+    <div class="last_activity-post d-flex align-items-center">
+        <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="user_img">
+        <div class="last_user-info d-flex flex-column">
+            <a href="#" class="last_user-name">{{ message.user }}</a>
+            <p class="last_activity-time">{{ message.created|timesince }} ago</p>
+            <div class="replied_to">replied to post "<a href="{% url 'room' message.room.id %}" class="last_post-name">{{ message.room }}</a>"</div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+<!--<h3>Recent activity: </h3>-->
+<!--<hr>-->
+<!--{% for message in room_messages %}-->
+<!--<div>-->
+<!--    <small><a href="{% url 'profile' message.user.id %}">@{{ message.user}}</a> {{ message.created|timesince }}</small>-->
+<!--    <small>replied to <a href="{% url 'room' message.room.id %}">"{{ message.room }}"</a></small>-->
+
+<!--    <p>{{ message.body }}</p>-->
+<!--    {% if request.user == message.user %}-->
+<!--    <a href="{% url 'delete-message' message.id %}">Delete</a>-->
+<!--    {% endif %}-->
+<!--    <hr>-->
+<!--</div>-->
+<!--{% endfor %}-->
