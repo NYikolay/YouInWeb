@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #363C42;">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #404a54;">
     <div class="container-fluid">
         <a class="navbar-brand me-5" href="#">YouInWeb</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,6 +26,9 @@
                 <a class="nav-link" href="{% url 'register' %}" tabindex="-1"><i class="icon-lock"></i>Register</a>
             </li>
             {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'update-user' %}" tabindex="-1"><i class="icon-lock"></i>Settings</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link disabled" aria-current="page" href="#">Hello {{ user.username }}!</a>
             </li>

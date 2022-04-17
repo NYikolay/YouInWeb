@@ -1,61 +1,138 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}{{ room.name }} | {% endblock %}
 
 
 {% block content %}
-<style>
-    .room-container {
-        display: grid;
-        grid-template-columns: 3fr 1fr;
-    }
-</style>
-<div class="room-container">
 
-    <div>
-        <h1>{{ room.name }}</h1>
-        <p>{{ room.description }}</p>
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-xl-8 room_block-container col-md-offset-4">
+            <div class="room_block">
+                <div class="room_top">
+                    <a href="/"><i class="icon-level-up"></i></a>
+                    <h3>someone room publick room</h3>
+                </div>
+                <div class="room_block-header">
+                    <div class="room_block-name d-flex justify-content-between">
+                        <h1>{{ room.name }}</h1>
+                        <a href="#" class="room_block-join">Join</a>
+                    </div>
+                    <p class="room_block-created">{{ room.created|timesince }} ago - Topic: {{ room.topic }}</p>
+                    <small>Hosted by</small>
+                    <div class="room_host-info d-flex align-items-center">
+                        <img src="{% static 'base/images/user_image8.webp' %}" alt="" class="room_host-img">
+                        <a href="{% url 'profile' room.host.id %}" class="room_host-name">@{{ room.host }}</a>
+                        {% if request.user == room.host %}
+                        <a href="{% url 'update-room' room.id %}" class="edit_room">Edit</a>
+                        <a href="{% url 'delete-room' room.id %}" class="delete_room">Delete</a>
+                        {% endif %}
+                    </div>
+                    <p class="room_desc">{{ room.description }}</p>
+                </div>
 
-        <div class="comment_wrapper">
-            <h3>Conversation</h3>
-            <hr>
+                <div class="room_box-scroll">
+                    {% for message in room_messages %}
+                    <div class="room_comment">
+                        <div class="room_comment-header d-flex align-items-center">
+                            <img src="{% static 'base/images/user_image8.webp' %}" alt="">
+                            <a href="{% url 'profile' message.user.id %}">@{{ message.user }}</a>
+                            <small>Sent {{ message.created|timesince }} ago</small>
+                        </div>
+                        <div class="room_comment-text">
+                            <p>{{ message.body }}</p>
+                            {% if request.user == message.user %}
+                            <a href="{% url 'delete-message' message.id %}" class="delete_message">Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
 
-            {% for message in room_messages %}
-            <div>
 
-                <small>@{{ message.user }} {{ message.created|timesince }} ago</small>
-                <p>{{ message.body }}</p>
-                {% if request.user == message.user %}
-                <a href="{% url 'delete-message' message.id %}">Delete</a>
+                </div>
+                {% if request.user.is_authenticated %}
+                <div class="room_message-action">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="body" placeholder="Write your message here" class="message_body">
+                    </form>
+                </div>
                 {% endif %}
-                <hr>
             </div>
-            {% endfor %}
         </div>
 
-        {% if request.user.is_authenticated %}
-        <div class="comment-form">
-            <form action="" method="post">
-                {% csrf_token %}
-                <input type="text" name="body" placeholder="Write your message here">
-            </form>
+
+        <div class="col-xl-2 participants_block-container ">
+            <div class="participants_top">
+                <p>Participants <span>({{ participants.count }} joined)</span></p>
+            </div>
+            <div class="participants_box-scroll">
+                {% for user in participants %}
+                <div class="participant_user-info d-flex">
+                    <img src="{% static 'base/images/User_image8.webp' %}" alt="">
+                    <div class="participant_user-inner d-flex flex-column">
+                        <p class="participant_name">{{ user.username }}</p>
+                        <a href="#" class="participant_username">@{{ user.username }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endif %}
-
-        {% if request.user == room.host %}
-        <a href="{% url 'update-room' room.id %}">Edit</a>
-        <a href="{% url 'delete-room' room.id %}">Delete</a>
-        {% endif %}
-    </div>
-
-    <div>
-        <h3>Participants</h3>
-        <hr>
-        {% for user in participants %}
-        <ul>
-            <li>@{{ user.username }}</li>
-        </ul>
-        {% endfor %}
     </div>
 </div>
+
+
+
 {% endblock %}
+
+
+
+
+
+<!--<div class="room-container">&ndash;&gt;-->
+<!--    <div>-->
+<!--        <h1>{{ room.name }}</h1>-->
+<!--        <p>{{ room.description }}</p>-->
+
+<!--        <div class="comment_wrapper">-->
+<!--            <h3>Conversation</h3>-->
+<!--            <hr>-->
+
+<!--            {% for message in room_messages %}-->
+<!--            <div>-->
+
+<!--                <small>@{{ message.user }} {{ message.created|timesince }} ago</small>-->
+<!--                <p>{{ message.body }}</p>-->
+<!--                {% if request.user == message.user %}-->
+<!--                <a href="{% url 'delete-message' message.id %}">Delete</a>-->
+<!--                {% endif %}-->
+<!--                <hr>-->
+<!--            </div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+
+<!--        {% if request.user.is_authenticated %}-->
+<!--        <div class="comment-form">-->
+<!--            <form action="" method="post">-->
+<!--                {% csrf_token %}-->
+<!--                <input type="text" name="body" placeholder="Write your message here">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        {% endif %}-->
+
+<!--        {% if request.user == room.host %}-->
+<!--        <a href="{% url 'update-room' room.id %}">Edit</a>-->
+<!--        <a href="{% url 'delete-room' room.id %}">Delete</a>-->
+<!--        {% endif %}-->
+<!--    </div>-->
+
+<!--    <div>-->
+<!--        <h3>Participants</h3>-->
+<!--        <hr>-->
+<!--        {% for user in participants %}-->
+<!--        <ul>-->
+<!--            <li>@{{ user.username }}</li>-->
+<!--        </ul>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</div>

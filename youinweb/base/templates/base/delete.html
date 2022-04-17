@@ -2,11 +2,21 @@
 
 {% block content %}
 
-<form action="" method="post">
-    {% csrf_token %}
-    <p>Are you sure?</p>
-    <a href="{{ request.META.HTTP_REFERER }}">Go back</a>
-    <input type="submit" value="confirm">
-</form>
+<div class="delete_page-container">
+    <div class="delete_message-body">
+        <form action="" method="post">
+            <p class="delete_message-text">Are you sure?</p>
+            <a href="{{ request.META.HTTP_REFERER }}" class="room_delete-back">Go back</a>
+            <input type="submit" value="confirm" class="room_delete-input">
+        </form>
+    </div>
+</div>
+
+<!--<form action="" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <p>Are you sure?</p>-->
+<!--    <a href="{{ request.META.HTTP_REFERER }}">Go back</a>-->
+<!--    <input type="submit" value="confirm">-->
+<!--</form>-->
 
 {% endblock %}

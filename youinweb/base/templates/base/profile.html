@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{% endblock %}
+{% block title %}{{ user.username }} profile | {% endblock %}
 
 
 {% block content %}
@@ -11,13 +11,74 @@
 <div class="col-xl-5 private_profile ">
     <div class="private_profile-block">
         <img src="{% static 'base/images/profile_image2.jpg' %}" alt="" class="private_profile-img">
-        <img src="{% static 'base/images/user_image8.jpg' %}" alt="" class="private_user-img">
-        <h3 class="private_profile-name">Jorjo Kolinz</h3>
-        <p class="private_profile-info">@jorjo123 <span class="private_profile_followers">| 132 Followers</span></p>
+        <img src="{% static 'base/images/User_image8.webp' %}" alt="" class="private_user-img">
+        <h3 class="private_profile-name">{{ user.username }}</h3>
+        <p class="private_profile-info">@{{ user.username }} <span class="private_profile_followers">| 132 Followers</span></p>
         <a href="" class="private_profile-follow">Follow</a>
         <h3 class="private_about-title">About</h3>
         <p class="private_profile-about">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid commodi dolor ex incidunt? Debitis ea fugit mollitia nisi reiciendis temporibus.</p>
     </div>
+
+
+    {% for i in room %}
+    <div class="post bg-light p-4">
+        <div class="post_header d-flex">
+            <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="post_image">
+            <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
+                <a href="" class="post_creator-name">@{{ i.host.username }}</a>
+                <p class="created_timesince">Category: <a href="{% url 'home' %}?q={{ i.topic.name }}" class="post_category">{{ i.topic.name }}</a> - {{ i.created|timesince }} ago</p>
+            </div>
+        </div>
+        <hr>
+        <div class="post_text">
+            <p class="post_text-message font-weight-normal">
+                {{ i.name }}
+            </p>
+        </div>
+        <div class="post_tags">
+            <a href="">#lorem</a>
+            <a href="">#lorem</a>
+            <a href="">#lorem</a>
+            <a href="">#lorem</a>
+            <a href="">#lorem</a>
+        </div>
+        <div class="post_buttons d-flex flex-row">
+            <button class="post_btn1" type="button"><i class="icon-thumbs-up-alt"></i>2 people</button>
+            <a href="{% url 'room' i.id %}" class="post_btn2" type="button"><i class="icon-chat"></i>Discuss</a>
+        </div>
+
+        <div class="show_comments">
+            <a href="{% url 'room' i.id %}"><i class="icon-chat"></i>See more</a>
+        </div>
+
+        <div class="post_comments">
+            <div class="post_comments-line"></div>
+            <div class="post_comment d-flex">
+                <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
+                    <img src="{% static 'base/images/user_image.png' %}" alt="" class="comment_image">
+                    <a href="" class="post_creator-name">@{{ i.message.user }}</a>
+                    <p class="created_timesince">2 month ago</p>
+                </div>
+                <!-- Фиксированное количество слов МАКСИМУМ 55 -->
+                <p class="comment_text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam assumenda provident fuga veritatis
+                    voluptates sapiente hic nemo, rem, blanditiis dolorem numquam iste iusto rerum, asperis!</p>
+            </div>
+        </div>
+
+        <div class="post_comments">
+            <div class="post_comments-line"></div>
+            <div class="post_comment d-flex">
+                <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
+                    <img src="{% static 'base/images/user_image.png' %}" alt="" class="comment_image">
+                    <a href="" class="post_creator-name">Patric</a>
+                    <p class="created_timesince">2 month ago</p>
+                </div>
+                <!-- Фиксированное количество слов МАКСИМУМ 55 -->
+                <p class="comment_text">Lorem ipsum dolor sit amet conss!</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
 
@@ -39,4 +100,6 @@
         {% endfor %}
     </div>
 </div>
+
+
 {% endblock %}

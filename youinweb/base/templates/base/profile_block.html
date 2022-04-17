@@ -12,9 +12,10 @@
 <div class="profile_line"></div>
 <div class="d-flex flex-column bd-highlight align-items-start mb-3 mt-5 my_profile">
         <h3 class="my_profile_text">My Profile</h3>
-        <a href="#" class="profile_links"><i class="icon-sticky-note-o"></i>Blog</a>
+        <a href="#" class="profile_links"><i class="icon-sticky-note-o"></i>Blog (In developing)</a>
         <a href="{% url 'home' %}" class="profile_links"><i class="icon-user-woman"></i>Followers (In developing)</a>
-        <a href="{% url 'create-room' %}" class="profile_links"><i class="icon-chat"></i>Create Topic</a>
+        <a href="{% url 'create-room' %}" class="profile_links"><i class="icon-chat"></i>Create Room</a>
+        <a href="{% url 'update-user' %}" class="profile_links"><i class="icon-chat"></i>Settings</a>
         <a href="{% url 'logout' %}" class="profile_links"><i class="icon-logout"></i>Logout</a>
         <br>
         <h3 class="my_profile_topics">Topics</h3>
@@ -22,7 +23,6 @@
         {% for topic in topics %}
         <a href="{% url 'home' %}?q={{ topic.name }}" class="profile_links"><i class="icon-chat"></i>{{ topic.name }} (<span>{{ topic.room_set.all.count }}</span>)</a>
         {% endfor %}
-
 </div>
 
 {% else %}
