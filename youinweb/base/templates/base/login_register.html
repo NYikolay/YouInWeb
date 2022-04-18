@@ -11,8 +11,8 @@
             <form action="" method="post">
                 {% csrf_token %}
                 <div class="form_group d-flex flex-column bd-highlight mb-3">
-                    <label class="username_label">Username </label>
-                    <input class="username_input" type="text" name="username" placeholder="GarryMan123">
+                    <label class="username_label">Email </label>
+                    <input class="username_input" type="text" name="email" placeholder="GarryMan123">
                 </div>
                 <div class="form_group d-flex flex-column bd-highlight mb-3">
                     <label class="password_label">Password </label>
@@ -27,6 +27,7 @@
         </div>
     </div>
 </div>
+
 {% else %}
 
 <div class="col-12 login_page-container">
@@ -37,14 +38,13 @@
         <div class="login_page-body">
             <form action="" method="post">
                 {% csrf_token %}
+                {% for field in form %}
                 <div class="form_group d-flex flex-column bd-highlight mb-3">
-                    <label class="username_label">Username </label>
-                    <input class="username_input" type="text" name="username" placeholder="GarryMan123">
+                    <label class="register_label">{{ field.label }}</label>
+                    {{ field }}
+<!--                    <input class="username_input" type="text" name="username" placeholder="GarryMan123">-->
                 </div>
-                <div class="form_group d-flex flex-column bd-highlight mb-3">
-                    <label class="password_label">Password </label>
-                    <input class="password_input" type="password" name="password" placeholder="••••••••">
-                </div>
+                {% endfor %}
                 <button class="form_profile-button" type="submit" value="register"><i class="icon-lock"></i>Register</button>
             </form>
         </div>

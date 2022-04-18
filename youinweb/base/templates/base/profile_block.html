@@ -2,8 +2,8 @@
 {% if request.user.is_authenticated %}
 <img src="{% static 'base/images/profile_image3.jpg' %}" alt="#" class="profile_image img-fluid">
 <div class="user_profile_info d-flex flex-row bd-highlight mb-3 align-items-center">
-        <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="user_image">
-        <h3 class="user_name">{{ user.username }}</h3>
+        <img src="{{ user.avatar.url }}" alt="" class="user_image">
+        <h3 class="user_name">{{ user.name }}</h3>
 </div>
 <div class="status_profile">
         <p class="success">Status: <span class="online_status">Online</span></p>

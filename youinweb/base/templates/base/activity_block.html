@@ -6,9 +6,9 @@
     </div>
     {% for message in room_messages %}
     <div class="last_activity-post d-flex align-items-center">
-        <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="user_img">
+        <img src="{{ message.user.avatar.url }}" alt="" class="user_img">
         <div class="last_user-info d-flex flex-column">
-            <a href="{% url 'profile' message.user.id %}" class="last_user-name">@{{ message.user }}</a>
+            <a href="{% url 'profile' message.user.id %}" class="last_user-name">@{{ message.user.name }}</a>
             <p class="last_activity-time">{{ message.created|timesince }} ago</p>
             <div class="replied_to">replied to post "<a href="{% url 'room' message.room.id %}" class="last_post-name">{{ message.room }}</a>"</div>
         </div>

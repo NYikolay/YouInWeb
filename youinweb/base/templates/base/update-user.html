@@ -5,11 +5,36 @@
 
 {% block content %}
 
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+<div class="update_user-container">
+    <div class="update_user-top align-items-center d-flex">
+        <a href="{{ request.META.HTTP_REFERER }}" class="update_user-back"><i class="icon-level-up"></i></a>
+        <p>edit your profile</p>
+    </div>
+    <div class="update_user-body">
+        <form action="" method="post" enctype="multipart/form-data" class="update_user-form">
+            {% csrf_token %}
+            {% for field in form %}
 
-    <button type="submit">Change</button>
-</form>
+            <div class="form_group d-flex flex-column align-items-start">
+                <label for="profile_pic">{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+
+            <div class="form_action d-flex flex-row-reverse align-items-end">
+                <button class="update_user-button" type="submit">Update</button>
+                <a href="/" class="update_user-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--<form action="" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    {{ form.as_p }}-->
+
+<!--    <button type="submit">Change</button>-->
+<!--</form>-->
 
 {% endblock %}
