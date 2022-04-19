@@ -177,6 +177,10 @@ footer {
     transition: .4s;
 }
 
+.pagination_content {
+    margin-top: 40px;
+}
+
 
 .post {
     border-radius: 20px;
@@ -203,6 +207,7 @@ footer {
     text-decoration: none;
     color: #2186c4;
     text-align: left;
+    margin-top: 10px;
 }
 
 .created_timesince {
@@ -997,12 +1002,12 @@ footer {
 .update_user-container {
     position: absolute;
     width: 600px;
-    max-height: 1000px;
+    max-height: 1200px;
     align-items: center;
     text-align: center;
     left: 0;
     right: 0;
-    margin: 150px auto;
+    margin: 250px auto;
     padding: 0;
     top: 50%;
     transform: translate(0, -50%);

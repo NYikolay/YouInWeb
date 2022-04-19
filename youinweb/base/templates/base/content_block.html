@@ -6,73 +6,87 @@
     <button type="button" class="search_btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="icon-search"></i>Search</button>
     <a href="#" class="something">Something</a>
 </div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Search</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{% url 'home' %}" method="get">
-                    <div class="mb-3">
-                        <label class="col-form-label">Search for:</label>
-                        <input type="text" name="q" placeholder="Search" aria-label="Search" class="form-control" id="recipient-name ">
-                    </div>
-                </form>
+<nav aria-label="..." class="pagination_content">
+    <ul class="pagination pagination-lg">
+        {% for p in page_obj.paginator.page_range %}
+        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Search</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'home' %}" method="get">
+                        <div class="mb-3">
+                            <label class="col-form-label">Search for:</label>
+                            <input type="text" name="q" placeholder="Search" aria-label="Search" class="form-control" id="recipient-name ">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Весь пост -->
-{% for i in room %}
-<div class="post bg-light p-4">
-    <div class="post_header d-flex">
-        <img src="{{ i.host.avatar.url }}" alt="" class="post_image">
-        <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
-            <a href="" class="post_creator-name">@{{ i.host.name }}</a>
-            <p class="created_timesince">Category: <a href="{% url 'home' %}?q={{ i.topic.name }}" class="post_category">{{ i.topic.name }}</a> - {{ i.created|timesince }} ago</p>
-        </div>
-    </div>
-    <hr>
-    <div class="post_text">
-        <p class="post_text-message font-weight-normal">
-            {{ i.name }}
-        </p>
-    </div>
-    <div class="post_tags">
-        <a href="">#lorem</a>
-        <a href="">#lorem</a>
-        <a href="">#lorem</a>
-        <a href="">#lorem</a>
-        <a href="">#lorem</a>
-    </div>
-    <div class="post_buttons d-flex flex-row">
-        <button class="post_btn1" type="button"><i class="icon-thumbs-up-alt"></i>2 people</button>
-        <a href="{% url 'room' i.id %}" class="post_btn2" type="button"><i class="icon-chat"></i>Discuss</a>
-    </div>
-
-    <div class="show_comments">
-        <a href="{% url 'room' i.id %}"><i class="icon-chat"></i>See more</a>
-    </div>
-
-    <div class="post_comments">
-        <div class="post_comments-line"></div>
-        <div class="post_comment d-flex">
+    <!-- Весь пост -->
+    {% for i in page_obj %}
+    <div class="post bg-light p-4">
+        <div class="post_header d-flex">
+            <img src="{{ i.host.avatar.url }}" alt="" class="post_image">
             <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
-                <img src="{{ i.host.avatar.url }}" alt="" class="comment_image">
-                <a href="" class="post_creator-name">@admin</a>
-                <p class="created_timesince">2 month ago</p>
+                <a href="" class="post_creator-name">@{{ i.host.name }}</a>
+                <p class="created_timesince">Category: <a href="{% url 'home' %}?q={{ i.topic.name }}" class="post_category">{{ i.topic.name }}</a> - {{ i.created|timesince }} ago</p>
             </div>
-            <!-- Фиксированное количество слов МАКСИМУМ 55 -->
-            <p class="comment_text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam assumenda provident fuga veritatis
-                voluptates sapiente hic nemo, rem, blanditiis dolorem numquam iste iusto rerum, asperis!</p>
         </div>
+        <hr>
+        <div class="post_text">
+            <p class="post_text-message font-weight-normal">
+                {{ i.name }}
+            </p>
+        </div>
+        <div class="post_tags">
+            <a href="">#lorem</a>
+            <a href="">#lorem</a>
+            <a href="">#lorem</a>
+            <a href="">#lorem</a>
+            <a href="">#lorem</a>
+        </div>
+        <div class="post_buttons d-flex flex-row">
+            <button class="post_btn1" type="button"><i class="icon-thumbs-up-alt"></i>2 people</button>
+            <a href="{% url 'room' i.id %}" class="post_btn2" type="button"><i class="icon-chat"></i>Discuss</a>
+        </div>
+
+        <div class="show_comments">
+            <a href="{% url 'room' i.id %}"><i class="icon-chat"></i>See more</a>
+        </div>
+        {% for message in room_messages %}
+        <div class="post_comments">
+            <div class="post_comments-line"></div>
+            <div class="post_comment d-flex">
+                <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
+                    <img src="{{ i.host.avatar.url }}" alt="" class="comment_image">
+                    <a href="" class="post_creator-name">@{{ message.user.username }}</a>
+                    <p class="created_timesince">2 month ago</p>
+                </div>
+                <!-- Фиксированное количество слов МАКСИМУМ 55 -->
+                <p class="comment_text">{{ message.body }}</p>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-</div>
-{% endfor %}
+
+    {% endfor %}
+
+    <nav aria-label="..." class="pagination_content">
+        <ul class="pagination pagination-lg">
+            {% for p in page_obj.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
 
 
 
@@ -82,9 +96,9 @@
 
 
 
-<!--{% for i in room %}-->
-<!--<span>Creator: <a href="{% url 'profile' i.host.id %}">@{{ i.host.username }}</a></span>-->
-<!--<h1><a href="{% url 'room' i.pk %}">{{ i.name }}</a></h1><br>-->
-<!--<span>Topic: {{ i.topic.name }}</span>-->
-<!--<hr>-->
-<!--{% endfor %}-->
+    <!--{% for i in room %}-->
+    <!--<span>Creator: <a href="{% url 'profile' i.host.id %}">@{{ i.host.username }}</a></span>-->
+    <!--<h1><a href="{% url 'room' i.pk %}">{{ i.name }}</a></h1><br>-->
+    <!--<span>Topic: {{ i.topic.name }}</span>-->
+    <!--<hr>-->
+    <!--{% endfor %}-->

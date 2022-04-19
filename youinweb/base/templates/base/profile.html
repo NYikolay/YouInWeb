@@ -4,28 +4,51 @@
 
 
 {% block content %}
+{% if request.user != user %}
 <div class="col-xl-3 bg-light profile">
     {% include 'base/profile_block.html' %}
 </div>
+{% else %}
+<div class="col-xl-3 bg-light profile">
+    <div class="d-flex flex-column bd-highlight align-items-start mb-3 mt-5 my_profile">
+        <h3 class="my_profile_text">My Profile</h3>
+        <a href="#" class="profile_links"><i class="icon-sticky-note-o"></i>Blog (In developing)</a>
+        <a href="{% url 'home' %}" class="profile_links"><i class="icon-user-woman"></i>Followers (In developing)</a>
+        <a href="{% url 'create-room' %}" class="profile_links"><i class="icon-chat"></i>Create Room</a>
+        <a href="{% url 'update-user' %}" class="profile_links"><i class="icon-chat"></i>Settings</a>
+        <a href="{% url 'logout' %}" class="profile_links"><i class="icon-logout"></i>Logout</a>
+        <br>
+        <h3 class="my_profile_topics">Topics</h3>
+        <a href="{% url 'home' %}" class="profile_links"><i class="icon-logout"></i>All (<span>{{ room__count }}</span>)</a>
+        {% for topic in topics %}
+        <a href="{% url 'home' %}?q={{ topic.name }}" class="profile_links"><i class="icon-chat"></i>{{ topic.name }} (<span>{{ topic.room_set.all.count }}</span>)</a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 
 <div class="col-xl-5 private_profile ">
     <div class="private_profile-block">
-        <img src="{% static 'base/images/profile_image2.jpg' %}" alt="" class="private_profile-img">
-        <img src="{% static 'base/images/User_image8.webp' %}" alt="" class="private_user-img">
-        <h3 class="private_profile-name">{{ user.username }}</h3>
+        <img src="{{ user.profile_photo.url }}" alt="" class="private_profile-img">
+        <img src="{{ user.avatar.url }}" alt="" class="private_user-img">
+        <h3 class="private_profile-name">{{ user.name }}</h3>
         <p class="private_profile-info">@{{ user.username }} <span class="private_profile_followers">| 132 Followers</span></p>
+        {% if request.user == user %}
+        <a href="{% url 'update-user' %}" class="private_profile-follow">Edit</a>
+        {% else %}
         <a href="" class="private_profile-follow">Follow</a>
+        {% endif %}
         <h3 class="private_about-title">About</h3>
-        <p class="private_profile-about">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid commodi dolor ex incidunt? Debitis ea fugit mollitia nisi reiciendis temporibus.</p>
+        <p class="private_profile-about">{{ user.bio }}</p>
     </div>
 
 
     {% for i in room %}
     <div class="post bg-light p-4">
         <div class="post_header d-flex">
-            <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="post_image">
+            <img src="{{ i.host.avatar.url }}" alt="" class="post_image">
             <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
-                <a href="" class="post_creator-name">@{{ i.host.username }}</a>
+                <a href="" class="post_creator-name">@{{ i.host.name }}</a>
                 <p class="created_timesince">Category: <a href="{% url 'home' %}?q={{ i.topic.name }}" class="post_category">{{ i.topic.name }}</a> - {{ i.created|timesince }} ago</p>
             </div>
         </div>
@@ -50,33 +73,20 @@
         <div class="show_comments">
             <a href="{% url 'room' i.id %}"><i class="icon-chat"></i>See more</a>
         </div>
-
+        {% for message in room_messages %}
         <div class="post_comments">
             <div class="post_comments-line"></div>
             <div class="post_comment d-flex">
-                <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
-                    <img src="{% static 'base/images/user_image.png' %}" alt="" class="comment_image">
-                    <a href="" class="post_creator-name">@{{ i.message.user }}</a>
-                    <p class="created_timesince">2 month ago</p>
+                <div class="post_header-info d-flex flex-column bd-highlight justify-content-center align-items-center ">
+                    <img src="{{ message.user.avatar.url }}" alt="" class="comment_image">
+                    <a href="" class="post_creator-name">@{{ message.user.name }}</a>
+                    <p class="created_timesince">{{ message.created|timesince }} ago</p>
                 </div>
                 <!-- Фиксированное количество слов МАКСИМУМ 55 -->
-                <p class="comment_text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam assumenda provident fuga veritatis
-                    voluptates sapiente hic nemo, rem, blanditiis dolorem numquam iste iusto rerum, asperis!</p>
+                <p class="comment_text">{{ message.body }}</p>
             </div>
         </div>
-
-        <div class="post_comments">
-            <div class="post_comments-line"></div>
-            <div class="post_comment d-flex">
-                <div class="post_header-info d-flex flex-column bd-highlight justify-content-center">
-                    <img src="{% static 'base/images/user_image.png' %}" alt="" class="comment_image">
-                    <a href="" class="post_creator-name">Patric</a>
-                    <p class="created_timesince">2 month ago</p>
-                </div>
-                <!-- Фиксированное количество слов МАКСИМУМ 55 -->
-                <p class="comment_text">Lorem ipsum dolor sit amet conss!</p>
-            </div>
-        </div>
+        {% endfor %}
     </div>
     {% endfor %}
 </div>
@@ -90,9 +100,9 @@
         </div>
         {% for message in room_messages %}
         <div class="last_activity-post d-flex align-items-center">
-            <img src="{% static 'base/images/user_image3.jpg' %}" alt="" class="user_img">
+            <img src="{{ message.user.avatar.url }}" alt="" class="user_img">
             <div class="last_user-info d-flex flex-column">
-                <a href="{% url 'profile' message.user.id %}" class="last_user-name">@{{ message.user }}</a>
+                <a href="{% url 'profile' message.user.id %}" class="last_user-name">@{{ message.user.name }}</a>
                 <p class="last_activity-time">{{ message.created|timesince }} ago</p>
                 <div class="replied_to">replied to post "<a href="{% url 'room' message.room.id %}" class="last_post-name">{{ message.room }}</a>"</div>
             </div>

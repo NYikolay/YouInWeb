@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
@@ -64,17 +65,21 @@ def home(request):
         Q(name__icontains=q) |
         Q(description__icontains=q)
     )
+    paginator = Paginator(room, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     topics = Topic.objects.all()
     room__count = room.count()
     room_messages = Message.objects.filter(
         Q(room__topic__name__icontains=q)
 
-    )
+    )[:3]
     context = {
         'room': room,
         'topics': topics,
         'room__count': room__count,
         'room_messages': room_messages,
+        'page_obj': page_obj,
     }
     return render(request, 'base/home.html', context)
 
@@ -104,13 +109,15 @@ def room(request, pk):
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
     room = user.room_set.all()
-    room_messages = user.message_set.all()
+    room_messages = user.message_set.all()[:3]
+    room_count = room.count()
     topics = Topic.objects.all()
     context = {
         'user': user,
         'room': room,
         'room_messages': room_messages,
         'topics': topics,
+        'room_count': room_count,
     }
     return render(request, 'base/profile.html', context)
 
